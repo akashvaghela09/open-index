@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Direct Download Almost Anything</title>
+	<meta name=viewport content="width=device-width, initial-scale=1">
+	<meta name="keywords" content="download,movies,games,music,softwares,epub,ebooks,pdf,mp3,songs,direct download">
+	<meta name="description" content="Find direct download links for about anything. TV Series, Movies, Books, music, softwares, games anything. Take advantage of powerful advanced search of Google.">
+	<!-- Latest compiled and minified CSS -->
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+
+	<script type="text/javascript">
+		var logos = {
+		google:"",
+		googol:"",
+		startpage:"",
+		searx:"",
+		filepursuit:""
+		};
+		function setFiletype(fileType, buttonData, resType, glyph) {
+			var defaultString = 'Search anything';
+			if (fileType==-1) {
+				fileType="";
+			}
+			switch(glyph) {
+				case 'film':
+					$("#query").prop('placeholder',defaultString+' eg. The.Blacklist.S01');
+					break;
+				case 'music':
+					$("#query").prop('placeholder',defaultString+' eg. K.Flay discography');
+					break;
+				case 'book':
+					$("#query").prop('placeholder',defaultString+' eg. 1985');
+					break;
+				case 'cd':
+					$("#query").prop('placeholder',defaultString+' eg. GTA V');
+					break;
+				case 'picture':
+					$("#query").prop('placeholder',defaultString+' eg. Donald Trump');
+					break;
+				case 'asterisk':
+					$("#query").prop('placeholder',defaultString);
+					break;
+			}
+			$("#fileType").prop('value',fileType);
+			$("#resType").prop('value',resType);
+			$("#ddbutton").html('<span class="glyphicon glyphicon-'+glyph+'" aria-hidden="true"></span> '+buttonData+' <span class="caret"></span>');
+    		$("#query").focus();
+			
+		}
+		function setEngine(engine) {
+			$("#engine").prop('value',engine);
+			$("#logo").prop('src',logos[engine]);
+			$("#egbutton").html('<span class="glyphicon glyphicon-search" aria-hidden="true"></span> '+engine+' <span class="caret"></span>');
+    		$("#query").focus();
+			
+		}
+		function startSearch (engine = '') {
+			var query = document.getElementById('query').value;
+			var fileType = document.getElementById('fileType').value;
+			var resType = document.getElementById('resType').value;
+			var engine = document.getElementById('engine').value;
+			if (fileType=="") {
+				if(engine=="filepursuit") {
+					fileType = "all";
+				}
+				var finalQuery = query+" -inurl:(jsp|pl|php|html|aspx|htm|cf|shtml) intitle:index.of -inurl:(listen77|mp3raid|mp3toss|mp3drug|index_of|index-of|wallywashis|downloadmana)";
+			} else {
+				var finalQuery = query+" +("+fileType+") -inurl:(jsp|pl|php|html|aspx|htm|cf|shtml) intitle:index.of -inurl:(listen77|mp3raid|mp3toss|mp3drug|index_of|index-of|wallywashis|downloadmana)";
+			}
+			switch(engine) {
+				case 'google':
+					var url = "https://www.google.com/search?q="+encodeURIComponent(finalQuery);
+					break;
+				case 'googol':
+					var url = "https://googol.warriordudimanche.net/?q="+encodeURIComponent(finalQuery);
+					break;
+				case 'startpage':
+					var url = "https://www.startpage.com/do/dsearch?query="+encodeURIComponent(finalQuery);
+					break;
+				case 'searx':
+					var url = "https://searx.me/?q="+encodeURIComponent(finalQuery);
+					break;
+				case 'filepursuit':
+					var url = "https://filepursuit.com/search/"+query.replace(/ /g,"+")+"/type/"+resType;
+					break;
+			}
+			console.log(url);
+			window.open(url, '_blank');
+		}
+		function openDropdown(){
+			$('#ddbutton').click();
+		}
+	</script>
+	<style type="text/css">
+		pre {
+			margin: 1em 0;
+			text-align: center;
+		}
+		.black-background {background-color:#000000;}
+		.white {color:#ffffff;}
+		#egbutton {text-transform:capitalize;}
+	</style>
+</head>
+<!-- Opening body tag -->
+<body onload="openDropdown();">
+
+<!-- Header -->
+<pre class="hidden-xs" align="center">
+<div>
+Get direct download links for almost anything.
+</div>
+</pre>
+<!-- Mobile Header -->
+<div align="center" class="row visible-xs">
+<h1>Open Directory Search</h1>
+Get direct download links for almost anything.
+<hr />
+</div>
+
+<div class="container">
+<form id="searchForm" onsubmit="event.preventDefault(); startSearch();">
+	<input type="hidden" name="fileType" value="" id="fileType">
+	<input type="hidden" name="resType" value="" id="resType">
+	<input type="hidden" name="engine" value="google" id="engine">
+	<div class="row" align="center">
+		<div class="col-lg-2"></div>
+		<div class="col-lg-8">
+			<div class="input-group">
+				<div class="input-group-btn">
+					<button id="ddbutton" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Choose Filetype <span id="message" class="caret"></span></button>
+					<ul class="dropdown-menu">
+						<li><a href="#" onclick="setFiletype('mkv|mp4|avi|mov|mpg|wmv|divx|mpeg', 'TV/Movies', 'video', 'film')"><span class="glyphicon glyphicon-film" aria-hidden="true"></span> TV/Movies/Video</a></li>
+						<li><a href="#" onclick="setFiletype('MOBI|CBZ|CBR|CBC|CHM|EPUB|FB2|LIT|LRF|ODT|PDF|PRC|PDB|PML|RB|RTF|TCR|DOC|DOCX', 'Books', 'ebook', 'book')"><span class="glyphicon glyphicon-book" aria-hidden="true"></span> Books</a></li>
+						<li><a href="#" onclick="setFiletype('mp3|wav|ac3|ogg|flac|wma|m4a|aac|mod', 'Music', 'audio', 'music')"><span class="glyphicon glyphicon-music" aria-hidden="true"></span> Music</a></li>
+						<li><a href="#" onclick="setFiletype('exe|iso|dmg|tar|7z|bz2|gz|rar|zip|apk', 'Software/ISO/DMG/Games', 'archive', 'cd')"><span class="glyphicon glyphicon-cd" aria-hidden="true"></span> Software/ISO/DMG/Games</a></li>
+						<li><a href="#" onclick="setFiletype('jpg|png|bmp|gif|tif|tiff|psd', 'Images', 'picture', 'picture')"><span class="glyphicon glyphicon-picture" aria-hidden="true"></span> Images</a></li>
+						<li><a href="#" onclick="setFiletype('-1', 'Other', 'all', 'asterisk')"><span class="glyphicon glyphicon-asterisk" aria-hidden="true"></span> Other</a></li>
+					</ul>
+				</div>
+				<div class="input-group-btn">
+					<button id="egbutton" type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-search" aria-hidden="true"></span> Google <span id="message" class="caret"></span></button>
+					<ul class="dropdown-menu">
+						<li><a href="#" onclick="setEngine('google')">Google</a></li>
+						<li><a href="#" onclick="setEngine('googol')">Googol</a></li>
+						<li><a href="#" onclick="setEngine('startpage')">Startpage</a></li>
+						<li><a href="#" onclick="setEngine('searx')">Searx</a></li>
+						<li><a href="#" onclick="setEngine('filepursuit')">FilePursuit</a></li>
+					</ul>
+				</div><!-- /btn-group -->
+				<input type="text" name="query" value="" id="query" class="form-control" placeholder="Search anything e.g The.Blacklist.S01.E01">
+				<span class="input-group-btn">
+					<a href="#" onclick="startSearch();" class="btn btn-default black-background white"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></a>
+				</span>
+			</div>
+		</div>
+		<div class="col-lg-2">
+		</div>
+	</div>
+</form>
+</div>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.3/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+</div>
+</body>
+</html>
