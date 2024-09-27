@@ -54,16 +54,7 @@ const fileTypes: FileType[] = [
     },
 ];
 
-const searchEngines = [
-    "google",
-    "bing",
-    "duckduckgo",
-    "yandex",
-    "startpage",
-    "searx",
-    "filepursuit",
-    "googol",
-];
+const searchEngines = ["google", "startpage", "filepursuit"];
 
 const SearchTool: React.FC = () => {
     const [query, setQuery] = useState("");
@@ -84,26 +75,13 @@ const SearchTool: React.FC = () => {
             google: `https://www.google.com/search?q=${encodeURIComponent(
                 finalQuery
             )}`,
-            bing: `https://www.bing.com/search?q=${encodeURIComponent(
-                finalQuery
-            )}`,
-            duckduckgo: `https://duckduckgo.com/?q=${encodeURIComponent(
-                finalQuery
-            )}`,
-            yandex: `https://yandex.com/search/?text=${encodeURIComponent(
-                finalQuery
-            )}`,
             startpage: `https://www.startpage.com/do/dsearch?query=${encodeURIComponent(
                 finalQuery
             )}`,
-            searx: `https://searx.me/?q=${encodeURIComponent(finalQuery)}`,
             filepursuit: `https://filepursuit.com/search/${query.replace(
                 / /g,
                 "+"
             )}/type/${resType}`,
-            googol: `https://googol.warriordudimanche.net/?q=${encodeURIComponent(
-                finalQuery
-            )}`,
         };
 
         window.open(searchUrls[engine], "_blank");
