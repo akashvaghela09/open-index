@@ -7,7 +7,6 @@ type FileType = {
     placeholder: string;
 };
 
-// List of file types with corresponding search parameters.
 const fileTypes: FileType[] = [
     {
         fileType: "mkv|mp4|avi|mov|mpg|wmv|divx|mpeg",
@@ -48,13 +47,7 @@ const fileTypes: FileType[] = [
     },
 ];
 
-const searchEngines = [
-    "google", 
-    "startpage",
-    "filepursuit", 
-];
-
-// FilePursuit-specific types.
+const searchEngines = ["google", "startpage", "filepursuit"] as const;
 const filePursuitTypes = [
     "all",
     "ebook",
@@ -66,40 +59,41 @@ const filePursuitTypes = [
 
 const SearchTool: React.FC = () => {
     const [query, setQuery] = useState("");
-    const [fileType, setFileType] = useState<FileType>(fileTypes[5]); // Default to "Any"
-    const [engine, setEngine] = useState(searchEngines[0]); // Default to Google
-    const [filePursuitType, setFilePursuitType] = useState(filePursuitTypes[0]); // Default to "all" for FilePursuit
+    const [fileType, setFileType] = useState<FileType>(fileTypes[5]);
+    const [engine, setEngine] = useState<(typeof searchEngines)[number]>(
+        searchEngines[0]
+    );
+    const [filePursuitType, setFilePursuitType] = useState(filePursuitTypes[0]);
 
     useEffect(() => {
-        // Reset file type to "Any" when engine changes
         setFileType(fileTypes[5]);
-        setFilePursuitType(filePursuitTypes[0]); // Reset FilePursuit type to "all"
+        setFilePursuitType(filePursuitTypes[0]);
     }, [engine]);
 
-    // Trigger search on keydown event, specifically Enter key
     const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
         if (event.key === "Enter") {
             startSearch();
         }
     };
 
-    // Perform the search with different search engines based on the selected engine and file type.
     const startSearch = () => {
         let finalQuery = query;
 
-        // Only append fileType-related search patterns for engines other than FilePursuit
         if (fileType.fileType && engine !== "filepursuit") {
             finalQuery += ` +(${fileType.fileType}) -inurl:(jsp|pl|php|html|aspx|htm|cf|shtml) intitle:"Index of" -inurl:(listen77|mp3raid|mp3toss|mp3drug|index_of|index-of|wallywashis|downloadmana)`;
         } else {
             finalQuery += ` -inurl:(jsp|pl|php|html|aspx|htm|cf|shtml) intitle:"Index of" -inurl:(listen77|mp3raid|mp3toss|mp3drug|index_of|index-of|wallywashis|downloadmana)`;
         }
 
-        // Prepare the search URLs based on the selected search engine
-        const searchUrls = {
+        const searchUrls: {
+            google: string;
+            startpage: string;
+            filepursuit: string;
+        } = {
             google: `https://www.google.com/search?q=${encodeURIComponent(
                 finalQuery
             )}`,
-            startpage: `https://www.startpage.com/do/dsearch?query=${encodeURIComponent(
+            startpage: `https://www.startpage.com/do/search?query=${encodeURIComponent(
                 finalQuery
             )}`,
             filepursuit: `https://filepursuit.com/pursuit?q=${encodeURIComponent(
@@ -107,8 +101,7 @@ const SearchTool: React.FC = () => {
             )}&type=${filePursuitType}&sort=datedesc`,
         };
 
-        // Open the search results in a new tab.
-        window.open(searchUrls[engine], "_blank");
+        window.open(searchUrls[engine as keyof typeof searchUrls], "_blank");
     };
 
     return (
@@ -124,7 +117,11 @@ const SearchTool: React.FC = () => {
                     </label>
                     <select
                         className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                        onChange={(e) => setEngine(e.target.value)}
+                        onChange={(e) =>
+                            setEngine(
+                                e.target.value as (typeof searchEngines)[number]
+                            )
+                        }
                         value={engine}
                     >
                         {searchEngines.map((eng, index) => (
@@ -135,7 +132,6 @@ const SearchTool: React.FC = () => {
                     </select>
                 </div>
 
-                {/* Show FilePursuit type dropdown when FilePursuit is selected */}
                 {engine === "filepursuit" && (
                     <div className="mb-4">
                         <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -156,7 +152,6 @@ const SearchTool: React.FC = () => {
                     </div>
                 )}
 
-                {/* Show file type dropdown for other engines */}
                 {engine !== "filepursuit" && (
                     <div className="mb-4">
                         <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -188,7 +183,7 @@ const SearchTool: React.FC = () => {
                         placeholder={fileType.placeholder}
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}
-                        onKeyDown={handleKeyDown} // Trigger search on Enter key down event
+                        onKeyDown={handleKeyDown}
                     />
                 </div>
 
