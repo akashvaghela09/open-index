@@ -6,6 +6,7 @@ import {
     SelectItem,
     SelectValue,
 } from "@/components/ui/select";
+import { Search } from "lucide-react";
 
 type FileType = {
     fileType: string;
@@ -112,107 +113,89 @@ const SearchTool: React.FC = () => {
     };
 
     return (
-        <div className="flex flex-col items-center justify-center min-h-screen bg-white p-4">
-            <h1 className="text-3xl font-bold mb-6">
-                Open Directory Search Tool
-            </h1>
+        <div className="w-full min-h-screen flex flex-col justify-center items-center bg-white p-4 gap-6">
+            <div className="flex items-center gap-6 -mt-36">
+                <img src="logo.png" alt="open index logo" className="size-24" />
+                <h1 className="text-6xl font-exo text-stone-500">Open Index</h1>
+            </div>
 
-            <div className="w-full max-w-2xl">
-                <div className="mb-4">
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Choose a search engine:
-                    </label>
+            <div className="w-full max-w-3xl flex items-center border rounded-lg overflow-hidden border-zinc-300 divide-x-2">
+                <Select
+                    value={engine}
+                    onValueChange={(value) =>
+                        setEngine(value as (typeof searchEngines)[number])
+                    }
+                >
+                    <SelectTrigger className="w-fit border-0 rounded-none focus:ring-0">
+                        <SelectValue placeholder="Select a search engine" />
+                    </SelectTrigger>
+                    <SelectContent>
+                        {searchEngines.map((eng, index) => (
+                            <SelectItem key={index} value={eng}>
+                                {eng.charAt(0).toUpperCase() + eng.slice(1)}
+                            </SelectItem>
+                        ))}
+                    </SelectContent>
+                </Select>
+
+                {engine === "filepursuit" && (
                     <Select
-                        value={engine}
-                        onValueChange={(value) =>
-                            setEngine(value as (typeof searchEngines)[number])
-                        }
+                        value={filePursuitType}
+                        onValueChange={setFilePursuitType}
                     >
-                        <SelectTrigger className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
-                            <SelectValue placeholder="Select a search engine" />
+                        <SelectTrigger className="w-fit border-0 rounded-none focus:ring-0">
+                            <SelectValue placeholder="Select a file type" />
                         </SelectTrigger>
                         <SelectContent>
-                            {searchEngines.map((eng, index) => (
-                                <SelectItem key={index} value={eng}>
-                                    {eng.charAt(0).toUpperCase() + eng.slice(1)}
+                            {filePursuitTypes.map((type, index) => (
+                                <SelectItem key={index} value={type}>
+                                    {type.charAt(0).toUpperCase() +
+                                        type.slice(1)}
                                 </SelectItem>
                             ))}
                         </SelectContent>
                     </Select>
-                </div>
-
-                {engine === "filepursuit" && (
-                    <div className="mb-4">
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Choose a file type for FilePursuit:
-                        </label>
-                        <Select
-                            value={filePursuitType}
-                            onValueChange={setFilePursuitType}
-                        >
-                            <SelectTrigger className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
-                                <SelectValue placeholder="Select a file type" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                {filePursuitTypes.map((type, index) => (
-                                    <SelectItem key={index} value={type}>
-                                        {type.charAt(0).toUpperCase() +
-                                            type.slice(1)}
-                                    </SelectItem>
-                                ))}
-                            </SelectContent>
-                        </Select>
-                    </div>
                 )}
 
                 {engine !== "filepursuit" && (
-                    <div className="mb-4">
-                        <label className="block text-sm font-medium text-gray-700 mb-2">
-                            Choose a file type:
-                        </label>
-                        <Select
-                            value={fileTypes.indexOf(fileType).toString()}
-                            onValueChange={(value) =>
-                                setFileType(fileTypes[parseInt(value)])
-                            }
-                        >
-                            <SelectTrigger className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
-                                <SelectValue placeholder="Select a file type" />
-                            </SelectTrigger>
-                            <SelectContent>
-                                {fileTypes.map((type, index) => (
-                                    <SelectItem
-                                        key={index}
-                                        value={index.toString()}
-                                    >
-                                        {type.buttonData}
-                                    </SelectItem>
-                                ))}
-                            </SelectContent>
-                        </Select>
-                    </div>
+                    <Select
+                        value={fileTypes.indexOf(fileType).toString()}
+                        onValueChange={(value) =>
+                            setFileType(fileTypes[parseInt(value)])
+                        }
+                    >
+                        <SelectTrigger className="w-fit border-0 rounded-none focus:ring-0">
+                            <SelectValue placeholder="Select a file type" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            {fileTypes.map((type, index) => (
+                                <SelectItem
+                                    key={index}
+                                    value={index.toString()}
+                                >
+                                    {type.buttonData}
+                                </SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
                 )}
-
-                <div className="mb-4">
-                    <label className="block text-sm font-medium text-gray-700 mb-2">
-                        Enter your search query:
-                    </label>
+                <div className="bg-stone-500 hover:bg-stone-700 transition duration-200 flex flex-1">
                     <input
                         type="text"
-                        className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                        className="w-full p-2 px-4 focus:outline-none border-0"
                         placeholder={fileType.placeholder}
                         value={query}
                         onChange={(e) => setQuery(e.target.value)}
                         onKeyDown={handleKeyDown}
                     />
-                </div>
 
-                <button
-                    onClick={startSearch}
-                    className="w-full bg-blue-500 text-white p-2 rounded-md hover:bg-blue-600 transition duration-200"
-                >
-                    Search Open Directories
-                </button>
+                    <div
+                        className="flex items-center p-2 cursor-pointer rounded-r-lg"
+                        onClick={startSearch}
+                    >
+                        <Search className="size-6 text-white" />
+                    </div>
+                </div>
             </div>
         </div>
     );
