@@ -12,6 +12,10 @@ Open Index is a web tool designed to help users explore open directories and sea
 
 ---
 
+### Deployed URL
+
+You can access the deployed version of Open Index here: [Open Index Live](https://openindex.app3.in)
+
 ### Features
 
 1. **Open Directory Exploration:** Discover publicly accessible directories.
