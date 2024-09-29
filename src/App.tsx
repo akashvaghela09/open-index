@@ -17,6 +17,12 @@ type FileType = {
 
 const fileTypes: FileType[] = [
     {
+        fileType: "",
+        buttonData: "Any",
+        glyph: "asterisk",
+        placeholder: "Search anything",
+    },
+    {
         fileType: "mkv|mp4|avi|mov|mpg|wmv|divx|mpeg",
         buttonData: "TV/Movies",
         glyph: "film",
@@ -47,12 +53,6 @@ const fileTypes: FileType[] = [
         glyph: "picture",
         placeholder: "eg. Nature landscapes",
     },
-    {
-        fileType: "",
-        buttonData: "Any",
-        glyph: "asterisk",
-        placeholder: "Search anything",
-    },
 ];
 
 const searchEngines = ["google", "startpage", "filepursuit"] as const;
@@ -67,14 +67,14 @@ const filePursuitTypes = [
 
 const SearchTool: React.FC = () => {
     const [query, setQuery] = useState("");
-    const [fileType, setFileType] = useState<FileType>(fileTypes[5]);
+    const [fileType, setFileType] = useState<FileType>(fileTypes[0]);
     const [engine, setEngine] = useState<(typeof searchEngines)[number]>(
         searchEngines[0]
     );
     const [filePursuitType, setFilePursuitType] = useState(filePursuitTypes[0]);
 
     useEffect(() => {
-        setFileType(fileTypes[5]);
+        setFileType(fileTypes[0]);
         setFilePursuitType(filePursuitTypes[0]);
     }, [engine]);
 
