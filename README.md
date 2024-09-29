@@ -1,50 +1,53 @@
-# React + TypeScript + Vite
+<p align="center">
+    <img width=200px height=200px src="./public/logo.png" alt="Project logo">
+</p>
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+<h1 align="center">Open Index 🔍</h1>
 
-Currently, two official plugins are available:
+### Description
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Open Index is a web tool designed to help users explore open directories and search for direct downloadable links. It provides options to search using Google, Startpage, and FilePursuit, as well as the ability to filter by specific file types. This project is inspired by the [Open Directory Finder](https://github.com/ewasion/opendirectory-finder/tree/master).
 
-## Expanding the ESLint configuration
+**_Note:_** _This tool is developed for educational purposes and is not affiliated with any search engine._
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+---
 
-- Configure the top-level `parserOptions` property like this:
+### Features
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+1. **Open Directory Exploration:** Discover publicly accessible directories.
+2. **Direct Download Links:** Search for direct downloadable links efficiently.
+3. **Search Options:** Utilize Google, Startpage, and FilePursuit for comprehensive results.
+4. **File Type Filtering:** Add and filter searches by specific file types.
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+### How to Set Up Locally
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
+1. **Clone Repository:**
+
+    ```bash
+    git clone https://github.com/akashvaghela09/open-index.git
+    ```
+
+2. **Navigate to Repository:**
+
+    ```bash
+    cd open-index
+    ```
+
+3. **Install Packages:**
+    ```bash
+    npm install
+    ```
+
+### How to Run
+
+1. **Start the Application:**
+    ```bash
+    npm run dev
+    ```
+
+### Contributor
+
+-   [Akash Vaghela](https://linkedin.com/in/akashvaghela09)
+
+Feel free to contribute and enhance the functionality of Open Index!
