@@ -1,4 +1,11 @@
 import React, { useState, useEffect } from "react";
+import {
+    Select,
+    SelectTrigger,
+    SelectContent,
+    SelectItem,
+    SelectValue,
+} from "@/components/ui/select";
 
 type FileType = {
     fileType: string;
@@ -115,21 +122,23 @@ const SearchTool: React.FC = () => {
                     <label className="block text-sm font-medium text-gray-700 mb-2">
                         Choose a search engine:
                     </label>
-                    <select
-                        className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                        onChange={(e) =>
-                            setEngine(
-                                e.target.value as (typeof searchEngines)[number]
-                            )
-                        }
+                    <Select
                         value={engine}
+                        onValueChange={(value) =>
+                            setEngine(value as (typeof searchEngines)[number])
+                        }
                     >
-                        {searchEngines.map((eng, index) => (
-                            <option key={index} value={eng}>
-                                {eng.charAt(0).toUpperCase() + eng.slice(1)}
-                            </option>
-                        ))}
-                    </select>
+                        <SelectTrigger className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                            <SelectValue placeholder="Select a search engine" />
+                        </SelectTrigger>
+                        <SelectContent>
+                            {searchEngines.map((eng, index) => (
+                                <SelectItem key={index} value={eng}>
+                                    {eng.charAt(0).toUpperCase() + eng.slice(1)}
+                                </SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
                 </div>
 
                 {engine === "filepursuit" && (
@@ -137,18 +146,22 @@ const SearchTool: React.FC = () => {
                         <label className="block text-sm font-medium text-gray-700 mb-2">
                             Choose a file type for FilePursuit:
                         </label>
-                        <select
-                            className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                            onChange={(e) => setFilePursuitType(e.target.value)}
+                        <Select
                             value={filePursuitType}
+                            onValueChange={setFilePursuitType}
                         >
-                            {filePursuitTypes.map((type, index) => (
-                                <option key={index} value={type}>
-                                    {type.charAt(0).toUpperCase() +
-                                        type.slice(1)}
-                                </option>
-                            ))}
-                        </select>
+                            <SelectTrigger className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                <SelectValue placeholder="Select a file type" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                {filePursuitTypes.map((type, index) => (
+                                    <SelectItem key={index} value={type}>
+                                        {type.charAt(0).toUpperCase() +
+                                            type.slice(1)}
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
                     </div>
                 )}
 
@@ -157,19 +170,26 @@ const SearchTool: React.FC = () => {
                         <label className="block text-sm font-medium text-gray-700 mb-2">
                             Choose a file type:
                         </label>
-                        <select
-                            className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                            onChange={(e) =>
-                                setFileType(fileTypes[parseInt(e.target.value)])
+                        <Select
+                            value={fileTypes.indexOf(fileType).toString()}
+                            onValueChange={(value) =>
+                                setFileType(fileTypes[parseInt(value)])
                             }
-                            value={fileTypes.indexOf(fileType)}
                         >
-                            {fileTypes.map((type, index) => (
-                                <option key={index} value={index}>
-                                    {type.buttonData}
-                                </option>
-                            ))}
-                        </select>
+                            <SelectTrigger className="w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                                <SelectValue placeholder="Select a file type" />
+                            </SelectTrigger>
+                            <SelectContent>
+                                {fileTypes.map((type, index) => (
+                                    <SelectItem
+                                        key={index}
+                                        value={index.toString()}
+                                    >
+                                        {type.buttonData}
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
                     </div>
                 )}
 
