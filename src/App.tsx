@@ -113,10 +113,16 @@ const SearchTool: React.FC = () => {
     };
 
     return (
-        <div className="w-full min-h-screen flex flex-col justify-center items-center bg-white p-4 gap-6">
-            <div className="flex items-center gap-6 -mt-36">
-                <img src="logo.png" alt="open index logo" className="size-24" />
-                <h1 className="text-6xl font-exo text-stone-500">Open Index</h1>
+        <div className="w-full min-h-screen flex flex-col justify-center items-center bg-white p-4 gap-4 md:gap-6">
+            <div className="flex items-center gap-2 md:gap-6 -mt-36">
+                <img
+                    src="logo.png"
+                    alt="open index logo"
+                    className="size-16 md:size-24"
+                />
+                <h1 className="text-4xl md:text-6xl font-exo text-stone-500">
+                    Open Index
+                </h1>
             </div>
 
             <div className="w-full max-w-3xl flex items-center border rounded-lg overflow-hidden border-zinc-300 divide-x-2">
@@ -126,7 +132,7 @@ const SearchTool: React.FC = () => {
                         setEngine(value as (typeof searchEngines)[number])
                     }
                 >
-                    <SelectTrigger className="w-fit border-0 rounded-none focus:ring-0">
+                    <SelectTrigger className="w-20 md:w-fit border-0 rounded-none focus:ring-0">
                         <SelectValue placeholder="Select a search engine" />
                     </SelectTrigger>
                     <SelectContent>
@@ -143,7 +149,7 @@ const SearchTool: React.FC = () => {
                         value={filePursuitType}
                         onValueChange={setFilePursuitType}
                     >
-                        <SelectTrigger className="w-fit border-0 rounded-none focus:ring-0">
+                        <SelectTrigger className="w-20 md:w-fit border-0 rounded-none focus:ring-0">
                             <SelectValue placeholder="Select a file type" />
                         </SelectTrigger>
                         <SelectContent>
@@ -164,7 +170,7 @@ const SearchTool: React.FC = () => {
                             setFileType(fileTypes[parseInt(value)])
                         }
                     >
-                        <SelectTrigger className="w-fit border-0 rounded-none focus:ring-0">
+                        <SelectTrigger className="w-20 md:w-fit border-0 rounded-none focus:ring-0">
                             <SelectValue placeholder="Select a file type" />
                         </SelectTrigger>
                         <SelectContent>
