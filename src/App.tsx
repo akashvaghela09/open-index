@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
     Select,
     SelectTrigger,
@@ -71,6 +71,7 @@ const SearchTool: React.FC = () => {
         searchEngines[0]
     );
     const [filePursuitType, setFilePursuitType] = useState(filePursuitTypes[0]);
+    const inputRef = useRef<HTMLInputElement | null>(null);
 
     useEffect(() => {
         setFileType(fileTypes[0]);
@@ -109,6 +110,11 @@ const SearchTool: React.FC = () => {
         };
 
         window.open(searchUrls[engine as keyof typeof searchUrls], "_blank");
+    };
+
+    const clearQuery = () => {
+        setQuery("");
+        inputRef.current?.focus();
     };
 
     return (
@@ -227,6 +233,7 @@ const SearchTool: React.FC = () => {
                 )}
                 <div className="bg-stone-500 hover:bg-stone-700 transition duration-200 flex flex-1">
                     <input
+                        ref={inputRef}
                         type="text"
                         className="w-full p-2 px-4 focus:outline-none border-0"
                         placeholder={fileType.placeholder}
@@ -239,7 +246,7 @@ const SearchTool: React.FC = () => {
                         <div className="bg-white flex items-center p-2">
                             <X
                                 className="size-6 text-black opacity-30 hover:opacity-100 cursor-pointer"
-                                onClick={() => setQuery("")}
+                                onClick={clearQuery}
                             />
                         </div>
                     )}
@@ -252,13 +259,6 @@ const SearchTool: React.FC = () => {
                     </div>
                 </div>
             </div>
-
-            {/* <button
-                className="px-10 py-4 rounded-lg bg-emerald-600 text-white text-lg"
-                onClick={startSearch}
-            >
-                Search
-            </button> */}
         </div>
     );
 };
