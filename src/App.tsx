@@ -82,6 +82,8 @@ const OpenIndexPage: React.FC = () => {
     useEffect(() => {
         setFileType(fileTypes[0]);
         setFilePursuitType(filePursuitTypes[0]);
+
+        focusOnSearchInput();
     }, [engine]);
 
     const handleKeyDown = (event: React.KeyboardEvent<HTMLInputElement>) => {
@@ -118,9 +120,18 @@ const OpenIndexPage: React.FC = () => {
         window.open(searchUrls[engine as keyof typeof searchUrls], "_blank");
     };
 
+    const waitFor = (ms: number) => {
+        return new Promise((resolve) => setTimeout(resolve, ms));
+    };
+
+    const focusOnSearchInput = async () => {
+        await waitFor(200);
+        inputRef.current?.focus();
+    };
+
     const clearQuery = () => {
         setQuery("");
-        inputRef.current?.focus();
+        focusOnSearchInput();
     };
 
     return (
@@ -137,15 +148,16 @@ const OpenIndexPage: React.FC = () => {
                     </h1>
                 </div>
 
-                <div className="w-full max-w-3xl flex items-center">
+                <div className="w-full max-w-3xl flex items-center hover:shadow-md focus-within:shadow-md">
                     <div className="flex items-center border border-r-0 border-zinc-300 rounded-l-lg overflow-hidden">
                         <Select
                             value={engine}
-                            onValueChange={(value) =>
+                            onValueChange={(value) => {
                                 setEngine(
                                     value as (typeof searchEngines)[number]
-                                )
-                            }
+                                );
+                                focusOnSearchInput();
+                            }}
                         >
                             <div className="border-r border-zinc-300">
                                 <Tooltip>
@@ -183,13 +195,14 @@ const OpenIndexPage: React.FC = () => {
                         {engine === "filepursuit" && (
                             <Select
                                 value={filePursuitType.type}
-                                onValueChange={(value) =>
+                                onValueChange={(value) => {
                                     setFilePursuitType(
                                         filePursuitTypes.find(
                                             (ft) => ft.type === value
                                         ) || filePursuitTypes[0]
-                                    )
-                                }
+                                    );
+                                    focusOnSearchInput();
+                                }}
                             >
                                 <div>
                                     <Tooltip>
@@ -235,9 +248,10 @@ const OpenIndexPage: React.FC = () => {
                         {engine !== "filepursuit" && (
                             <Select
                                 value={fileTypes.indexOf(fileType).toString()}
-                                onValueChange={(value) =>
-                                    setFileType(fileTypes[parseInt(value)])
-                                }
+                                onValueChange={(value) => {
+                                    setFileType(fileTypes[parseInt(value)]);
+                                    focusOnSearchInput();
+                                }}
                             >
                                 <div>
                                     <Tooltip>
