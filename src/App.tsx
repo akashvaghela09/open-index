@@ -46,6 +46,10 @@ const OpenIndexPage: React.FC = () => {
     const startSearch = () => {
         let finalQuery = query;
 
+        if (query.trim() === "") {
+            return;
+        }
+
         if (fileType.fileType && engine !== "filepursuit") {
             finalQuery += ` +(${fileType.fileType}) -inurl:(jsp|pl|php|html|aspx|htm|cf|shtml) intitle:"Index of" -inurl:(listen77|mp3raid|mp3toss|mp3drug|index_of|index-of|wallywashis|downloadmana)`;
         } else {
