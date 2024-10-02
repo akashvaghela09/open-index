@@ -5,6 +5,12 @@ import {
     SelectContent,
     SelectItem,
 } from "@/components/ui/select";
+import {
+    Tooltip,
+    TooltipContent,
+    TooltipProvider,
+    TooltipTrigger,
+} from "@/components/ui/tooltip";
 import { Search, X } from "lucide-react";
 
 type FileType = {
@@ -118,148 +124,191 @@ const SearchTool: React.FC = () => {
     };
 
     return (
-        <div className="w-full min-h-screen flex flex-col justify-center items-center bg-white p-4 gap-4 md:gap-6">
-            <div className="flex items-center gap-2 -mt-36">
-                <img
-                    src="logo.png"
-                    alt="open index logo"
-                    className="size-16 md:size-24"
-                />
-                <h1 className="text-4xl md:text-4xl font-exo text-stone-500">
-                    Open Index
-                </h1>
-            </div>
-
-            <div className="w-full max-w-3xl flex items-center border rounded-lg overflow-hidden border-zinc-300 divide-x-2">
-                <Select
-                    value={engine}
-                    onValueChange={(value) =>
-                        setEngine(value as (typeof searchEngines)[number])
-                    }
-                >
-                    <SelectTrigger className="w-20 md:w-fit border-0 rounded-none focus:ring-0">
-                        <div className="flex justify-center items-center">
-                            <img
-                                src={`/${engine}.png`}
-                                alt={engine}
-                                className="size-5"
-                            />
-                        </div>
-                    </SelectTrigger>
-                    <SelectContent>
-                        {searchEngines.map((eng, index) => (
-                            <SelectItem key={index} value={eng}>
-                                <span className="flex items-center">
-                                    <img
-                                        src={`/${eng}.png`}
-                                        alt={eng}
-                                        className="size-5 mr-2"
-                                    />
-                                    {eng.charAt(0).toUpperCase() + eng.slice(1)}
-                                </span>
-                            </SelectItem>
-                        ))}
-                    </SelectContent>
-                </Select>
-
-                {engine === "filepursuit" && (
-                    <Select
-                        value={filePursuitType.type}
-                        onValueChange={(value) =>
-                            setFilePursuitType(
-                                filePursuitTypes.find(
-                                    (ft) => ft.type === value
-                                ) || filePursuitTypes[0]
-                            )
-                        }
-                    >
-                        <SelectTrigger className="w-20 md:w-fit border-0 rounded-none focus:ring-0">
-                            <img
-                                src={filePursuitType.imageUrl}
-                                alt={filePursuitType.type}
-                                className="size-5"
-                            />
-                        </SelectTrigger>
-                        <SelectContent>
-                            {filePursuitTypes.map((type, index) => (
-                                <SelectItem key={index} value={type.type}>
-                                    <span className="flex items-center gap-1">
-                                        <img
-                                            src={type.imageUrl}
-                                            alt={type.type}
-                                            className="size-5 mr-2"
-                                        />
-                                        {type.type.charAt(0).toUpperCase() +
-                                            type.type.slice(1)}
-                                    </span>
-                                </SelectItem>
-                            ))}
-                        </SelectContent>
-                    </Select>
-                )}
-
-                {engine !== "filepursuit" && (
-                    <Select
-                        value={fileTypes.indexOf(fileType).toString()}
-                        onValueChange={(value) =>
-                            setFileType(fileTypes[parseInt(value)])
-                        }
-                    >
-                        <SelectTrigger className="w-20 md:w-fit border-0 rounded-none focus:ring-0">
-                            <img
-                                src={fileType.imageUrl}
-                                alt={fileType.buttonData}
-                                className="size-5"
-                            />
-                        </SelectTrigger>
-                        <SelectContent>
-                            {fileTypes.map((type, index) => (
-                                <SelectItem
-                                    key={index}
-                                    value={index.toString()}
-                                >
-                                    <span className="flex items-center gap-1">
-                                        <img
-                                            src={type.imageUrl}
-                                            alt={type.buttonData}
-                                            className="size-5 mr-2"
-                                        />
-                                        {type.buttonData}
-                                    </span>
-                                </SelectItem>
-                            ))}
-                        </SelectContent>
-                    </Select>
-                )}
-                <div className="bg-stone-500 hover:bg-stone-700 transition duration-200 flex flex-1">
-                    <input
-                        ref={inputRef}
-                        type="text"
-                        className="w-full p-2 px-4 focus:outline-none border-0"
-                        placeholder={fileType.placeholder}
-                        value={query}
-                        onChange={(e) => setQuery(e.target.value)}
-                        onKeyDown={handleKeyDown}
+        <TooltipProvider>
+            <div className="w-full min-h-screen flex flex-col justify-center items-center bg-white p-4 gap-4 md:gap-6">
+                <div className="flex items-center gap-2 -mt-36">
+                    <img
+                        src="logo.png"
+                        alt="open index logo"
+                        className="size-16 md:size-24"
                     />
+                    <h1 className="text-3xl md:text-4xl font-exo text-stone-500">
+                        Open Index
+                    </h1>
+                </div>
 
-                    {query.length > 0 && (
-                        <div className="bg-white flex items-center p-2">
-                            <X
-                                className="size-6 text-black opacity-30 hover:opacity-100 cursor-pointer"
-                                onClick={clearQuery}
-                            />
+                <div className="w-full max-w-3xl flex items-center border rounded-lg overflow-hidden border-zinc-300 divide-x-2">
+                    <Select
+                        value={engine}
+                        onValueChange={(value) =>
+                            setEngine(value as (typeof searchEngines)[number])
+                        }
+                    >
+                        <div>
+                            <Tooltip>
+                                <TooltipTrigger asChild>
+                                    <SelectTrigger className="w-20 md:w-fit border-0 rounded-none focus:ring-0">
+                                        <img
+                                            src={`/${engine}.png`}
+                                            alt={engine}
+                                            className="size-5"
+                                        />
+                                    </SelectTrigger>
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                    <p>Search engine</p>
+                                </TooltipContent>
+                            </Tooltip>
                         </div>
+                        <SelectContent>
+                            {searchEngines.map((eng, index) => (
+                                <SelectItem key={index} value={eng}>
+                                    <span className="flex items-center">
+                                        <img
+                                            src={`/${eng}.png`}
+                                            alt={eng}
+                                            className="size-5 mr-2"
+                                        />
+                                        {eng.charAt(0).toUpperCase() +
+                                            eng.slice(1)}
+                                    </span>
+                                </SelectItem>
+                            ))}
+                        </SelectContent>
+                    </Select>
+
+                    {engine === "filepursuit" && (
+                        <Select
+                            value={filePursuitType.type}
+                            onValueChange={(value) =>
+                                setFilePursuitType(
+                                    filePursuitTypes.find(
+                                        (ft) => ft.type === value
+                                    ) || filePursuitTypes[0]
+                                )
+                            }
+                        >
+                            <div>
+                                <Tooltip>
+                                    <TooltipTrigger asChild>
+                                        <SelectTrigger className="w-20 md:w-fit border-0 rounded-none focus:ring-0">
+                                            <img
+                                                src={filePursuitType.imageUrl}
+                                                alt={filePursuitType.type}
+                                                className="size-5"
+                                            />
+                                        </SelectTrigger>
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                        <p>File type</p>
+                                    </TooltipContent>
+                                </Tooltip>
+                            </div>
+                            <SelectContent>
+                                {filePursuitTypes.map((type, index) => (
+                                    <SelectItem key={index} value={type.type}>
+                                        <span className="flex items-center gap-1">
+                                            <img
+                                                src={type.imageUrl}
+                                                alt={type.type}
+                                                className="size-5 mr-2"
+                                            />
+                                            {type.type.charAt(0).toUpperCase() +
+                                                type.type.slice(1)}
+                                        </span>
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
                     )}
 
-                    <div
-                        className="flex items-center p-2 cursor-pointer rounded-r-lg"
-                        onClick={startSearch}
-                    >
-                        <Search className="size-6 text-white" />
+                    {engine !== "filepursuit" && (
+                        <Select
+                            value={fileTypes.indexOf(fileType).toString()}
+                            onValueChange={(value) =>
+                                setFileType(fileTypes[parseInt(value)])
+                            }
+                        >
+                            <div>
+                                <Tooltip>
+                                    <TooltipTrigger asChild>
+                                        <SelectTrigger className="w-20 md:w-fit border-0 rounded-none focus:ring-0">
+                                            <img
+                                                src={fileType.imageUrl}
+                                                alt={fileType.buttonData}
+                                                className="size-5"
+                                            />
+                                        </SelectTrigger>
+                                    </TooltipTrigger>
+                                    <TooltipContent>
+                                        <p>File type</p>
+                                    </TooltipContent>
+                                </Tooltip>
+                            </div>
+
+                            <SelectContent>
+                                {fileTypes.map((type, index) => (
+                                    <SelectItem
+                                        key={index}
+                                        value={index.toString()}
+                                    >
+                                        <span className="flex items-center gap-1">
+                                            <img
+                                                src={type.imageUrl}
+                                                alt={type.buttonData}
+                                                className="size-5 mr-2"
+                                            />
+                                            {type.buttonData}
+                                        </span>
+                                    </SelectItem>
+                                ))}
+                            </SelectContent>
+                        </Select>
+                    )}
+                    <div className="bg-stone-500 hover:bg-stone-700 transition duration-200 flex flex-1">
+                        <input
+                            ref={inputRef}
+                            type="text"
+                            className="w-full p-2 px-4 focus:outline-none border-0"
+                            placeholder={fileType.placeholder}
+                            value={query}
+                            onChange={(e) => setQuery(e.target.value)}
+                            onKeyDown={handleKeyDown}
+                        />
+
+                        {query.length > 0 && (
+                            <Tooltip>
+                                <TooltipTrigger asChild>
+                                    <div className="bg-white flex items-center p-2">
+                                        <X
+                                            className="size-6 text-black opacity-30 hover:opacity-100 cursor-pointer"
+                                            onClick={clearQuery}
+                                        />
+                                    </div>
+                                </TooltipTrigger>
+                                <TooltipContent>
+                                    <p>Clear query</p>
+                                </TooltipContent>
+                            </Tooltip>
+                        )}
+
+                        <Tooltip>
+                            <TooltipTrigger asChild>
+                                <div
+                                    className="flex items-center p-2 cursor-pointer rounded-r-lg"
+                                    onClick={startSearch}
+                                >
+                                    <Search className="size-6 text-white" />
+                                </div>
+                            </TooltipTrigger>
+                            <TooltipContent>
+                                <p>Search</p>
+                            </TooltipContent>
+                        </Tooltip>
                     </div>
                 </div>
             </div>
-        </div>
+        </TooltipProvider>
     );
 };
 
