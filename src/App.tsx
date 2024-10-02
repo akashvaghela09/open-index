@@ -5,7 +5,7 @@ import {
     SelectContent,
     SelectItem,
 } from "@/components/ui/select";
-import { Search } from "lucide-react";
+import { Search, X } from "lucide-react";
 
 type FileType = {
     fileType: string;
@@ -234,6 +234,15 @@ const SearchTool: React.FC = () => {
                         onChange={(e) => setQuery(e.target.value)}
                         onKeyDown={handleKeyDown}
                     />
+
+                    {query.length > 0 && (
+                        <div className="bg-white flex items-center p-2">
+                            <X
+                                className="size-6 text-black opacity-30 hover:opacity-100 cursor-pointer"
+                                onClick={() => setQuery("")}
+                            />
+                        </div>
+                    )}
 
                     <div
                         className="flex items-center p-2 cursor-pointer rounded-r-lg"
