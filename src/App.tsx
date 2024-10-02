@@ -70,7 +70,7 @@ const filePursuitTypes = [
     { type: "archive", imageUrl: "/archive.png" },
 ];
 
-const SearchTool: React.FC = () => {
+const OpenIndexPage: React.FC = () => {
     const [query, setQuery] = useState("");
     const [fileType, setFileType] = useState<FileType>(fileTypes[0]);
     const [engine, setEngine] = useState<(typeof searchEngines)[number]>(
@@ -312,4 +312,4 @@ const SearchTool: React.FC = () => {
     );
 };
 
-export default SearchTool;
+export default OpenIndexPage;
