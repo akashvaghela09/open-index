@@ -12,76 +12,27 @@ import {
     TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Search, X } from "lucide-react";
-
-type FileType = {
-    fileType: string;
-    buttonData: string;
-    imageUrl: string;
-    placeholder: string;
-};
-
-const fileTypes: FileType[] = [
-    {
-        fileType: "",
-        buttonData: "Any",
-        imageUrl: "/any.png",
-        placeholder: "Search anything",
-    },
-    {
-        fileType: "mkv|mp4|avi|mov|mpg|wmv|divx|mpeg",
-        buttonData: "TV/Movies",
-        imageUrl: "/film.png",
-        placeholder: "eg. The.Blacklist.S01",
-    },
-    {
-        fileType:
-            "MOBI|CBZ|CBR|CBC|CHM|EPUB|FB2|LIT|LRF|ODT|PDF|PRC|PDB|PML|RB|RTF|TCR|DOC|DOCX",
-        buttonData: "Books",
-        imageUrl: "/book.png",
-        placeholder: "eg. 1984",
-    },
-    {
-        fileType: "mp3|wav|ac3|ogg|flac|wma|m4a|aac|mod",
-        buttonData: "Music",
-        imageUrl: "/music.png",
-        placeholder: "eg. K.Flay discography",
-    },
-    {
-        fileType: "exe|iso|dmg|tar|7z|bz2|gz|rar|zip|apk",
-        buttonData: "Software/ISO/DMG/Games",
-        imageUrl: "/disc.png",
-        placeholder: "eg. GTA V",
-    },
-    {
-        fileType: "jpg|png|bmp|gif|tif|tiff|psd",
-        buttonData: "Images",
-        imageUrl: "/image.png",
-        placeholder: "eg. Nature landscapes",
-    },
-];
-
-const searchEngines = ["google", "startpage", "filepursuit"] as const;
-const filePursuitTypes = [
-    { type: "all", imageUrl: "/any.png" },
-    { type: "ebook", imageUrl: "/book.png" },
-    { type: "video", imageUrl: "/film.png" },
-    { type: "audio", imageUrl: "/music.png" },
-    { type: "mobile", imageUrl: "/apk.png" },
-    { type: "archive", imageUrl: "/archive.png" },
-];
+import {
+    FilePursuitTypeList,
+    FileType,
+    FileTypeList,
+    SearchEngineList,
+} from "./constants";
 
 const OpenIndexPage: React.FC = () => {
     const [query, setQuery] = useState("");
-    const [fileType, setFileType] = useState<FileType>(fileTypes[0]);
-    const [engine, setEngine] = useState<(typeof searchEngines)[number]>(
-        searchEngines[0]
+    const [fileType, setFileType] = useState<FileType>(FileTypeList[0]);
+    const [engine, setEngine] = useState<(typeof SearchEngineList)[number]>(
+        SearchEngineList[0]
     );
-    const [filePursuitType, setFilePursuitType] = useState(filePursuitTypes[0]);
+    const [filePursuitType, setFilePursuitType] = useState(
+        FilePursuitTypeList[0]
+    );
     const inputRef = useRef<HTMLInputElement | null>(null);
 
     useEffect(() => {
-        setFileType(fileTypes[0]);
-        setFilePursuitType(filePursuitTypes[0]);
+        setFileType(FileTypeList[0]);
+        setFilePursuitType(FilePursuitTypeList[0]);
 
         focusOnSearchInput();
     }, [engine]);
@@ -154,7 +105,7 @@ const OpenIndexPage: React.FC = () => {
                             value={engine}
                             onValueChange={(value) => {
                                 setEngine(
-                                    value as (typeof searchEngines)[number]
+                                    value as (typeof SearchEngineList)[number]
                                 );
                                 focusOnSearchInput();
                             }}
@@ -176,7 +127,7 @@ const OpenIndexPage: React.FC = () => {
                                 </Tooltip>
                             </div>
                             <SelectContent>
-                                {searchEngines.map((eng, index) => (
+                                {SearchEngineList.map((eng, index) => (
                                     <SelectItem key={index} value={eng}>
                                         <span className="flex items-center">
                                             <img
@@ -197,9 +148,9 @@ const OpenIndexPage: React.FC = () => {
                                 value={filePursuitType.type}
                                 onValueChange={(value) => {
                                     setFilePursuitType(
-                                        filePursuitTypes.find(
+                                        FilePursuitTypeList.find(
                                             (ft) => ft.type === value
-                                        ) || filePursuitTypes[0]
+                                        ) || FilePursuitTypeList[0]
                                     );
                                     focusOnSearchInput();
                                 }}
@@ -223,7 +174,7 @@ const OpenIndexPage: React.FC = () => {
                                     </Tooltip>
                                 </div>
                                 <SelectContent>
-                                    {filePursuitTypes.map((type, index) => (
+                                    {FilePursuitTypeList.map((type, index) => (
                                         <SelectItem
                                             key={index}
                                             value={type.type}
@@ -247,9 +198,11 @@ const OpenIndexPage: React.FC = () => {
 
                         {engine !== "filepursuit" && (
                             <Select
-                                value={fileTypes.indexOf(fileType).toString()}
+                                value={FileTypeList.indexOf(
+                                    fileType
+                                ).toString()}
                                 onValueChange={(value) => {
-                                    setFileType(fileTypes[parseInt(value)]);
+                                    setFileType(FileTypeList[parseInt(value)]);
                                     focusOnSearchInput();
                                 }}
                             >
@@ -271,7 +224,7 @@ const OpenIndexPage: React.FC = () => {
                                 </div>
 
                                 <SelectContent>
-                                    {fileTypes.map((type, index) => (
+                                    {FileTypeList.map((type, index) => (
                                         <SelectItem
                                             key={index}
                                             value={index.toString()}
