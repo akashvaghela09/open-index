@@ -103,7 +103,7 @@ const OpenIndexPage: React.FC = () => {
                     </h1>
                 </div>
 
-                <div className="w-full max-w-3xl flex items-center hover:shadow-md focus-within:shadow-md">
+                <div className="w-full max-w-3xl flex items-center hover:shadow-md focus-within:shadow-md rounded-lg">
                     <div className="flex items-center border border-r-0 border-zinc-300 rounded-l-lg overflow-hidden">
                         <Select
                             value={engine}
